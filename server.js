@@ -1,16 +1,24 @@
-const http = require('http');
-const app = require('./app');
-const {connection} = require('./models');
+const express = require('express');
+const cors = require('cors');
+const empleadoRoutes = require('./routes/empleado');
 
-const PORT = 3000;
-connection.sync() 
-  .then(() => {
-    console.log('Conexión con la base de datos exitosa y modelos sincronizados.');
-    const server = http.createServer(app);
-    server.listen(PORT, () => {
-      console.log(`Servidor corriendo en el puerto ${PORT}`);
-    });
-  })
-  .catch((error) => {
-    console.error('Error al sincronizar con la base de datos:', error);
-  });
+
+const app = express();
+
+app.use(cors({
+  origin: 'http://localhost:4200',  
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+app.use(express.json());
+
+app.use('/api/empleados', empleadoRoutes);
+
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Conexión con la base de datos exitosa y modelos sincronizados. ${PORT}`);
+});
+
+module.exports = app;

@@ -36,6 +36,7 @@ const updateEmpleado = async (req, res) => {
     const [updated] = await Empleado.update(req.body, {
       where: { id_empleado: req.params.id }
     });
+    
     if (updated) {
       const updatedEmpleado = await Empleado.findByPk(req.params.id);
       res.status(200).json(updatedEmpleado);
@@ -43,7 +44,8 @@ const updateEmpleado = async (req, res) => {
       res.status(404).json({ message: 'Empleado no encontrado' });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error(error);  // Imprimir error en la consola
+    res.status(500).json({ error: 'Error al actualizar el empleado' });
   }
 };
 
