@@ -5,8 +5,8 @@ const sequelize = new Sequelize(
   'root',
   'v3lazqu3z', //esta es la contraseña de mysql
   {
-    host: config.development.host,
-    dialect: config.development.dialect,
+    host:"localhost",
+    dialect: "mysql"
   }
 );
 
